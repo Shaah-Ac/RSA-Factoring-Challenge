@@ -1,61 +1,45 @@
 #!/usr/bin/python3
-
 import sys
-import time
+from sys import argv
 
+def factorize(value):
 
-def factorize(num):
     """
-    Takes a number as input and returns its factorization if composite, or None if prime.
-
-    Args:
-        num: The integer to factorize.
-
-    Returns:
-        A tuple of two factors if the number is composite, or None if prime.
+    # Factorize as many numbers as possible into..
+    # ..a product of two smaller numbers.
+    # VARIABLE(" "):
+    # factorize(int) Factorize all the things!
+    # Usage: factors <file>
+    # Output format: n=p*q
     """
-    for i in range(2, int(num**0.5) + 1):
-        if num % i == 0:
-            return (i, num // i)
-    return None
+    i = 2
+
+    if value < 2:
+        return
+    print()
+    print(value, "<- ")
+    while value % i:
+        i += 1
+    print("{:.0f}={:.0f}*{:.0f}".format(value, value / i, i))
+    print()
+    print(value, "<- ")
 
 
-if __name__ == "__main__":
-    """
-    Reads the input file, factorizes each number, and prints the results.
+if len(argv) != 2:
+    exit()
 
-    Usage: factors <file>
-    """
-    if len(sys.argv) != 2:
-        print("Usage: factors <file>")
-        exit()
+try:
+    with open(argv[1]) as file:
+        line = file.readline()
 
-    input_file = sys.argv[1]
-
-    try:
-        with open(input_file, "r") as f:
-            lines = f.readlines()
-    except FileNotFoundError:
-        print("File not found:", input_file)
-        exit()
-
-    start_time = time.time()
-
-    for line in lines:
-        try:
-            num = int(line.strip())
-        except ValueError:
-            print(f"Invalid number in line: {line.strip()}")
-            continue
-
-        factors = factorize(num)
-        if factors is None:
-            print(f"{num} is prime")
-        else:
-            print(f"{num}={factors[0]}*{factors[1]}")
-
-        if time.time() - start_time > 5:
-            print("Time limit exceeded")
-            exit()
-
-
+        while line != "":
+            value = int(line.split('\n')[0])
+            factorize(value)
+            line = file.readline()
+except FileNotFoundError:
+    print(f'File not found: {argv}')
+except ValueError:
+    print(f'Invalid input in the file: {argv}')
+except Exception as e:
+    print(f'An error occurred: {str(e)}')
+    pass
