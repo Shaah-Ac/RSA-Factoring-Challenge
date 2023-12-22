@@ -5,33 +5,21 @@ import time
 
 
 def factorize(num):
-    """
-    Takes a number as input and returns its factorization if composite, or None if prime.
-
-    Args:
-        num: The integer to factorize.
-
-    Returns:
-        A tuple of two factors if the number is composite, or None if prime.
-    """
-    for i in range(2, int(num**0.5) + 1):
-        if num % i == 0:
-            return (i, num // i)
-    return None
+    """Factorizes a number into two smaller factors, or returns None if prime."""
+    # Implement factorization logic here
+    # ...
 
 
 if __name__ == "__main__":
-    """
-    Reads the input file, factorizes each number, and prints the results.
+    """Main function to handle file input, factorization, and output."""
 
-    Usage: factors <file>
-    """
+    # Check for correct usage
     if len(sys.argv) != 2:
         print("Usage: factors <file>")
         exit()
 
+    # Read input file
     input_file = sys.argv[1]
-
     try:
         with open(input_file, "r") as f:
             lines = f.readlines()
@@ -39,21 +27,17 @@ if __name__ == "__main__":
         print("File not found:", input_file)
         exit()
 
+    # Factorize numbers and print results within time limit
     start_time = time.time()
-
     for line in lines:
-        try:
-            num = int(line.strip())
-        except ValueError:
-            print(f"Invalid number in line: {line.strip()}")
-            continue
-
+        num = int(line.strip())
         factors = factorize(num)
-        if factors is None:
-            print(f"{num} is prime")
-        else:
+        if factors:
             print(f"{num}={factors[0]}*{factors[1]}")
+        else:
+            print(f"{num} is prime")
 
         if time.time() - start_time > 5:
             print("Time limit exceeded")
             exit()
+
